@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Service Records</h2>
+    <hr>
+    <ul>
+        {% for record in service_records %}
+            <li>{{ record.vehicle }} - {{ record.service_type }} ({{ record.status }}) - Initiated: {{ record.date_initiated }}</li>
+        {% empty %}
+            <p>No service records available.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Client Dashboard</h2>
+    <hr>
+    <h3>Active Services</h3>
+    <ul class="list-group">
+        {% for service in active_services %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ service.vehicle }} - {{ service.service_type }} 
+                <span class="badge bg-warning text-dark">{{ service.status }}</span>
+            </li>
+        {% empty %}
+            <p>No active services.</p>
+        {% endfor %}
+    </ul>
+
+    <h3 class="mt-4">Pending Invoices</h3>
+    <ul class="list-group">
+        {% for invoice in pending_invoices %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Invoice #{{ invoice.id }} - Amount: {{ invoice.amount }} - Due: {{ invoice.due_date }}
+                <a href="{% url 'client_portal:invoices' %}?pay={{ invoice.id }}" class="btn btn-sm btn-primary">Pay Now</a>
+            </li>
+        {% empty %}
+            <p>No pending invoices.</p>
+        {% endfor %}
+    </ul>
+
+    <h3 class="mt-4">Recent Notifications</h3>
+    <ul class="list-group">
+        {% for notification in recent_notifications %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ notification.message }}
+                <span class="text-muted small">{{ notification.created_at|date:"Y-m-d H:i" }}</span>
+            </li>
+        {% empty %}
+            <p>No new notifications.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

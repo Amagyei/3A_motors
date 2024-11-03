@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Notifications</h2>
+    <hr>
+    <ul>
+        {% for notification in notifications %}
+            <li>
+                {{ notification.message }} - {{ notification.created_at }}
+                {% if notification.read %}
+                    <span class="badge badge-success">Read</span>
+                {% else %}
+                    <span class="badge badge-warning">Unread</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p>No notifications available.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
