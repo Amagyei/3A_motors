@@ -56,6 +56,12 @@ class Invoice(models.Model):
         return f"Invoice {self.id} - {self.status}"
 
 class Payment(models.Model):
+    PAYMENT_METHODS = [
+        ('paystack', 'Paystack'),
+        ('cheque', 'Cheque'),
+        ('cash', 'Cash'),
+    ]
+
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
     payment_date = models.DateTimeField(auto_now_add=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -69,6 +75,9 @@ class Payment(models.Model):
         default='Pending'
     )
     transaction_id = models.CharField(max_length=100, unique=True)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, default='paystack')
+    paystack_reference = models.CharField(max_length=100, null=True, blank=True)
+
 
     def __str__(self):
         return f"Payment {self.transaction_id} - {self.status}"

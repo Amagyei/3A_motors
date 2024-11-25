@@ -1,8 +1,24 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from .forms import LoginForm, UserRegistrationForm, ProfileUpdateForm
 from .models import Profile
+
+def is_user(user):
+    return user.is_authenticated
+
+def is_employee(user):
+    return user.is_authenticated and user.user_type == "employee"
+
+def is_client(user):
+    return user.is_authenticated and user.user_type == "admin"
+
+
+
+def is_client(user):
+    return user.is_authenticated and user.user_type == "client"
+
 
 def register_view(request):
     """Handle user registration."""
@@ -26,9 +42,9 @@ def login_view(request):
 
     form = LoginForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
-        email = form.cleaned_data["email"]
+        username = form.cleaned_data["username"]
         password = form.cleaned_data["password"]
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             messages.success(request, "You are now logged in.")

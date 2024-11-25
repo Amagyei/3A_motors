@@ -1,11 +1,14 @@
 import requests
 from django.conf import settings
 from django.shortcuts import render, redirect
-from .models import ServiceRecord, Invoice, Payment, Notification
-from .forms import PaymentForm
 from django.views.generic import TemplateView, ListView
-from .mixins import ClientRequiredMixin
+from django.http import JsonResponse
 
+
+from client_portal.paystack_service import initialize_paystack_payment
+from .forms import PaymentForm
+from .models import ServiceRecord, Invoice, Payment, Notification
+from .mixins import ClientRequiredMixin
 
 class DashboardView(ClientRequiredMixin, TemplateView):
     template_name = "client_portal/dashboard.html"
@@ -48,18 +51,29 @@ class InvoiceListView(ClientRequiredMixin, ListView):
         return Invoice.objects.filter(user=self.request.user)
 
     def post(self, request, *args, **kwargs):
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            invoice_id = request.POST.get("invoice_id")
-            invoice = get_object_or_404(Invoice, id=invoice_id, user=request.user)
-            amount = form.cleaned_data['amount']
-            gateway = form.cleaned_data['gateway']
+        invoice_id = request.POST.get("invoice_id")
+        invoice = Invoice.objects.get(id=invoice_id)
+        user = request.user
 
-            if gateway == "flutterwave":
-                return self.handle_flutterwave_payment(invoice, amount)
-            elif gateway == "paystack":
-                return self.handle_paystack_payment(invoice, amount)
-        return render(request, self.template_name, {"form": form, "error": "Invalid payment form data."})
+        # Generate a unique reference
+        reference = f"invoice_{invoice.id}_{user.uid}"
+
+        # Initialize Paystack payment
+        callback_url = "https://your_redirect_url.com/"  # Replace with your callback URL
+        response = initialize_paystack_payment(
+            amount=invoice.amount,
+            email=user.email,
+            reference=reference,
+            callback_url=callback_url
+        )
+
+        if response.get("status"):
+            # Redirect to the Paystack payment page
+            return redirect(response["data"]["authorization_url"])
+        else:
+            # Handle error
+            return render(request, self.template_name, {"error": "Payment initialization failed."})
+
 
     def handle_flutterwave_payment(self, invoice, amount):
         # Prepare payment data for Flutterwave
@@ -112,3 +126,25 @@ class InvoiceListView(ClientRequiredMixin, ListView):
                 return render(self.request, self.template_name, {"error": "Paystack payment initiation failed."})
         except requests.RequestException:
             return render(self.request, self.template_name, {"error": "Payment service is temporarily unavailable."})
+        
+
+
+def verify_paystack_payment(request):
+    reference = request.GET.get("reference")
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"
+    }
+    response = requests.get(
+        f"https://api.paystack.co/transaction/verify/{reference}", headers=headers
+    )
+    data = response.json()
+    if data["status"]:
+        # Update the payment record
+        payment = Payment.objects.get(transaction_id=reference)
+        payment.status = "Successful" if data["data"]["status"] == "success" else "Failed"
+        payment.save()
+        return JsonResponse({"message": "Payment verified successfully."})
+    else:
+        return JsonResponse({"message": "Payment verification failed."}, status=400)
+    
+
