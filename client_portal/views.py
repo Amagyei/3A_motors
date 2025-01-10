@@ -1,11 +1,11 @@
 import requests
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView
 from django.http import JsonResponse
 
 
-from client_portal.paystack_service import initialize_paystack_payment
+from client_portal.paystack_service import initialize_paystack_payment, verify_payment
 from .forms import PaymentForm
 from .models import ServiceRecord, Invoice, Payment, Notification
 from .mixins import ClientRequiredMixin
@@ -146,5 +146,41 @@ def verify_paystack_payment(request):
         return JsonResponse({"message": "Payment verified successfully."})
     else:
         return JsonResponse({"message": "Payment verification failed."}, status=400)
-    
 
+def initialize_invoice_payment(request, invoice_id):
+    """Initialize Paystack payment for an invoice."""
+    invoice = get_object_or_404(Invoice, id=invoice_id)
+    callback_url = request.build_absolute_uri(reverse("payment_success", args=[invoice.id]))
+    try:
+        payment_url = initialize_payment(
+            email=invoice.user.email,
+            amount=invoice.amount,
+            reference=str(invoice.success_id),
+            callback_url=callback_url,
+        )
+        return JsonResponse({"payment_url": payment_url})
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+def payment_success(request, invoice_id):
+    """Verify payment and update invoice and service record status."""
+    reference = request.GET.get("reference")
+    try:
+        payment_data = verify_payment(reference)
+        if payment_data["status"] == "success":
+            invoice = Invoice.objects.get(id=invoice_id, success_id=reference)
+            if invoice.payment_status != "Paid":
+                invoice.payment_status = "Paid"
+                invoice.save()
+
+                # Update the related service record
+                if invoice.service_record:
+                    service_record = invoice.service_record
+                    service_record.status = "Completed"
+                    service_record.save()
+
+                return render(request, "payment_success.html", {"invoice": invoice})
+        else:
+            return render(request, "payment_failed.html", {"error": "Payment verification failed."})
+    except Exception as e:
+        return render(request, "payment_failed.html", {"error": str(e)})

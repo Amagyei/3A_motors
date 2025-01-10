@@ -1,9 +1,11 @@
 from django.db import models
+import uuid
 from django.conf import settings
 
 class ServiceType(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
+    serviceType_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
         return self.name
@@ -11,6 +13,7 @@ class ServiceType(models.Model):
 class ServiceRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     vehicle = models.ForeignKey('vehicle.Vehicle', on_delete=models.CASCADE)
+    serviceRecord_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     service_type = models.ForeignKey(ServiceType, on_delete=models.CASCADE)
     issue_description = models.TextField()
     status = models.CharField(
@@ -22,6 +25,7 @@ class ServiceRecord(models.Model):
         ],
         default='Pending'
     )
+    payment_status = models.CharField(choices=[('Paid', 'Paid'), ('Unpaid', 'Unpaid')])
     assigned_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -41,6 +45,8 @@ class Invoice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     service_record = models.OneToOneField(ServiceRecord, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    invoice_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    success_id = models.UUIDField(default=uuid.uuid4, editable=False, null= True, unique=True)
     status = models.CharField(
         max_length=20,
         choices=[
@@ -77,6 +83,7 @@ class Payment(models.Model):
     transaction_id = models.CharField(max_length=100, unique=True)
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS, default='paystack')
     paystack_reference = models.CharField(max_length=100, null=True, blank=True)
+    success_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, null=True)
 
 
     def __str__(self):
@@ -94,6 +101,7 @@ class Notification(models.Model):
     notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES, default='general')
     created_at = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
+    notification_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     class Meta:
         ordering = ['-created_at']

@@ -1,0 +1,242 @@
+.e-icons {
+  font-family: "e-icons";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
+}
+
+.e-symbolpalette .e-clear-searchtext::before {
+  content: "\e58c";
+}
+
+/* stylelint-disable-line length-zero-no-unit */
+.e-icons {
+  font-family: "e-icons";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
+}
+
+.e-symbolpalette .e-clear-searchtext::before {
+  content: "\e7e7";
+}
+
+.e-diagram {
+  display: block;
+  background-color: #fff;
+}
+
+.e-symbolpalette {
+  display: block;
+}
+
+.e-overview {
+  display: block;
+}
+
+.overview-resizer {
+  fill: #0d6efd;
+}
+
+.e-content-placeholder.e-diagram.e-placeholder-diagram {
+  background-size: 100% 100%;
+  max-height: 500px;
+  max-width: 500px;
+}
+
+.e-content-placeholder.e-symbolpalette.e-placeholder-symbolpalette {
+  background-size: 100% 100%;
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.e-diagram-endpoint-handle {
+  fill: #fff;
+  stroke: #0d6efd;
+}
+
+.e-diagram-endpoint-handle.e-connected {
+  fill: #0d6efd;
+  stroke: #fff;
+}
+
+.e-diagram-endpoint-handle.e-disabled,
+.e-diagram-bezier-control-handle.e-disabled,
+.e-diagram-resize-handle.e-disabled {
+  fill: #dee2e6;
+  opacity: 1;
+  stroke: #fff;
+}
+
+/* stylelint-disable */
+.e-diagram-bezier-handle.e-source.e-disabled {
+  opacity: 1 !important;
+}
+
+.e-diagram-bezier-handle.e-target.e-disabled {
+  opacity: 1 !important;
+}
+
+.e-diagram-bezier-control-handle {
+  fill: #fff;
+  stroke: #0d6efd;
+  rx: 0px;
+  ry: 0px;
+}
+
+.e-diagram-ortho-segment-handle,
+.e-diagram-straight-segment-handle,
+.e-diagram-bezier-segment-handle {
+  fill: #fff;
+  stroke: #0d6efd;
+}
+
+.e-symbolpalette .e-acrdn-content {
+  background-color: #fff !important;
+}
+
+/* stylelint-enable */
+.e-diagram-bezier-control-line {
+  stroke: #0d6efd;
+}
+
+.e-diagram-resize-handle {
+  fill: #0d6efd;
+  stroke: #fff;
+  rx: 0;
+  ry: 0;
+}
+
+.e-diagram-helper {
+  stroke: #0d6efd;
+}
+
+.e-diagram-rotate-handle {
+  fill: #0d6efd;
+  stroke: #0d6efd;
+}
+
+.e-diagram-selector {
+  stroke: #0d6efd;
+}
+
+.e-diagram-selector.e-disabled {
+  opacity: 1;
+  stroke: #dee2e6;
+}
+
+.e-diagram-selector.e-thick-border {
+  stroke: #0d6efd;
+  stroke-width: 2;
+}
+
+.e-diagram-selector.e-thick-border.e-diagram-lane {
+  stroke: #0d6efd;
+  stroke-width: 2;
+}
+
+.e-diagram-highlighter {
+  stroke: #0d6efd;
+  stroke-width: 2;
+}
+
+.e-diagram-selected-region {
+  stroke: #0d6efd;
+}
+
+.e-diagram-pivot-line {
+  stroke: #0d6efd;
+}
+
+.e-symbolpalette .e-symbol-hover:hover {
+  background: #e9ecef;
+  border-radius: 4px;
+}
+
+.e-symbolpalette .e-symbol-selected {
+  background: #dee2e6;
+  border-radius: 4px;
+}
+
+.e-diagram-tooltip {
+  pointer-events: none;
+}
+
+.e-diagram .e-ruler {
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 10px;
+}
+
+.e-diagram .e-ruler-overlap {
+  background: #f8f9fa;
+}
+
+.e-diagram .e-d-ruler-marker {
+  stroke: #0d6efd;
+}
+
+.e-diagram .e-diagram-text-edit {
+  background: #fff;
+  border-color: #0d6efd;
+  border-style: dashed;
+  border-width: 1px;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  color: #000;
+  min-width: 50px;
+}
+
+.e-diagram-text-edit::-moz-selection {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.e-diagram-text-edit::selection {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.e-ruler-tick-label {
+  fill: #6c757d;
+}
+
+.e-ruler-tick {
+  stroke: #adb5bd;
+}
+
+.e-menu-item e-blankicon {
+  padding-left: 28px;
+}
+
+.e-diagram-selection-indicator {
+  stroke: #0d6efd;
+}
+
+.e-diagram-selection-line {
+  stroke: #0d6efd;
+}
+
+/* stylelint-disable */
+.e-diagram-rotate {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsSAAALEgHS3X78AAAA60lEQVQ4jZ1SwQ2DMBAzlfLJI2KEjJAVukG7ARsxQkfoKHQDugHdgOoqh14oCaGWIpSTudzZRg2MdYOxrq0il2Csm411o7Eu5GinTN0D6AGMAGZVux9p1LGBrHIF0LD+4l3ql70thDABSFZYaeTJ6UqNWhL3ELhyyhUR98TcwI06Lk1aNonO1NocqGWy/6zOcGCq6OjiSCw22/wUfEzL8ND2P9duFXBmHMDvWVN7CliFkkGe69VM5RmVLDqG7ZMPOroWP5BTle5WjR6dkQayutyLqU6gsiU/ypHMiI41yf+CE01qov+R0egXAN5x6jng51I3yAAAAABJRU5ErkJggg==), auto !important;
+}
+
+.e-symbolpalette-hidden {
+  display: none !important;
+}
+
+.e-symbolpalette-search-hidden {
+  display: none !important;
+}
+
+.e-diagramTooltip-content {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* stylelint-enable */

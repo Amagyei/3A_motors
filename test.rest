@@ -1,0 +1,15 @@
+POST http://127.0.0.1:8000/user/login/
+Content-Type: application/json
+
+{
+    "email": "hello@example.com",
+    "password": "NKna23//"
+}
+###
+
+POST http://127.0.0.1:8000/user/logout/
+Content-Type: application/json
+
+{
+    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNjEwMDY0NiwiaWF0IjoxNzM2MDUwMjQ2LCJqdGkiOiIzOTE3OWQ5ZDU0NTY0ZGY1ODkzZTg2ZWU5YzkxNzkzMSIsInVzZXJfaWQiOiJoeTJzdDZ4cyJ9.0MlBZDenaYRxrdwko_kih_yZshrpdoQKuhCOD2LuWp8"
+}

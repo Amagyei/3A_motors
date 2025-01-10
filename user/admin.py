@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import User  # Import your custom user model
+from .models import User, Profile  # Import your custom user model
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
@@ -21,3 +21,9 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'user_type')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'full_name', 'image', 'verified')
+    list_filter = ('verified',)
+    search_fields = ('user', 'full_name', 'bio')

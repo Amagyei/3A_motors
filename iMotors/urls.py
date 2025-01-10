@@ -17,16 +17,16 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from user.views import register_view, login_view, logout_view, profile_update_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     # 
     # remember to change this bs line
     # 
-    path("", register_view, name="home"),
     path("user/", include("user.urls", namespace="user")),  
     path("client_portal/", include("client_portal.urls", namespace="client_portal")),
     path('employee/', include('employee_portal.urls', namespace='employee_portal')),
+    path('', include('frontend.urls', namespace='frontend')),
+    # path('api', include('api.urls' , namespace="api")),
     # path('vehicle/', include('vehicle.urls', namespace='vehicle')),
 ]

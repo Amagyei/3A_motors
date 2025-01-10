@@ -1,0 +1,241 @@
+.e-icons {
+  font-family: "e-icons";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
+.e-symbolpalette .e-clear-searchtext::before {
+  content: "\e58c";
+}
+
+.e-icons {
+  font-family: "e-icons";
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: none;
+}
+
+.e-symbolpalette .e-clear-searchtext::before {
+  content: "\e7a7";
+}
+
+.e-diagram {
+  display: block;
+  background-color: #000;
+}
+
+.e-symbolpalette {
+  display: block;
+}
+
+.e-overview {
+  display: block;
+}
+
+.overview-resizer {
+  fill: rgb(0, 120, 215);
+}
+
+.e-content-placeholder.e-diagram.e-placeholder-diagram {
+  background-size: 100% 100%;
+  max-height: 500px;
+  max-width: 500px;
+}
+
+.e-content-placeholder.e-symbolpalette.e-placeholder-symbolpalette {
+  background-size: 100% 100%;
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.e-diagram-endpoint-handle {
+  fill: rgb(0, 120, 215);
+  stroke: #fff;
+}
+
+.e-diagram-endpoint-handle.e-connected {
+  fill: #fff;
+  stroke: rgb(0, 120, 215);
+}
+
+.e-diagram-endpoint-handle.e-disabled,
+.e-diagram-bezier-control-handle.e-disabled,
+.e-diagram-resize-handle.e-disabled {
+  fill: rgb(166, 166, 166);
+  opacity: 1;
+  stroke: #fff;
+}
+
+/* stylelint-disable */
+.e-diagram-bezier-handle.e-source.e-disabled {
+  opacity: 1 !important;
+}
+
+.e-diagram-bezier-handle.e-target.e-disabled {
+  opacity: 1 !important;
+}
+
+.e-diagram-bezier-control-handle {
+  fill: rgb(0, 90, 158);
+  stroke: #fff;
+  rx: 0px;
+  ry: 0px;
+}
+
+.e-diagram-ortho-segment-handle,
+.e-diagram-straight-segment-handle,
+.e-diagram-bezier-segment-handle {
+  fill: rgb(0, 90, 158);
+  stroke: #fff;
+}
+
+.e-symbolpalette .e-acrdn-content {
+  background-color: #fff !important;
+}
+
+/* stylelint-enable */
+.e-diagram-bezier-control-line {
+  stroke: rgb(0, 90, 158);
+}
+
+.e-diagram-resize-handle {
+  fill: rgb(0, 120, 215);
+  stroke: rgb(0, 120, 215);
+  rx: 0;
+  ry: 0;
+}
+
+.e-diagram-helper {
+  stroke: rgb(0, 90, 158);
+}
+
+.e-diagram-rotate-handle {
+  fill: #000;
+  stroke: #fff;
+}
+
+.e-diagram-selector {
+  stroke: rgb(0, 90, 158);
+}
+
+.e-diagram-selector.e-disabled {
+  opacity: 1;
+  stroke: rgb(166, 166, 166);
+}
+
+.e-diagram-selector.e-thick-border {
+  stroke: rgb(0, 90, 158);
+  stroke-width: 2;
+}
+
+.e-diagram-selector.e-thick-border.e-diagram-lane {
+  stroke: #0078ff;
+  stroke-width: 2;
+}
+
+.e-diagram-highlighter {
+  stroke: rgb(0, 90, 158);
+  stroke-width: 2;
+}
+
+.e-diagram-selected-region {
+  stroke: rgb(0, 120, 215);
+}
+
+.e-diagram-pivot-line {
+  stroke: rgb(0, 120, 215);
+}
+
+.e-symbolpalette .e-symbol-hover:hover {
+  background: #685708;
+  border-radius: 4px;
+}
+
+.e-symbolpalette .e-symbol-selected {
+  background: rgb(199, 224, 244);
+  border-radius: 4px;
+}
+
+.e-diagram-tooltip {
+  pointer-events: none;
+}
+
+.e-diagram .e-ruler {
+  background: #fff;
+  color: rgb(166, 166, 166);
+  font-size: 10px;
+}
+
+.e-diagram .e-ruler-overlap {
+  background: #fff;
+}
+
+.e-diagram .e-d-ruler-marker {
+  stroke: rgb(0, 120, 215);
+}
+
+.e-diagram .e-diagram-text-edit {
+  background: #fff;
+  border-color: rgb(0, 90, 158);
+  border-style: dashed;
+  border-width: 1px;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+  color: #000;
+  min-width: 50px;
+}
+
+.e-diagram-text-edit::-moz-selection {
+  background: rgb(0, 120, 215);
+  color: #fff;
+}
+
+.e-diagram-text-edit::selection {
+  background: rgb(0, 120, 215);
+  color: #fff;
+}
+
+.e-ruler-tick-label {
+  fill: rgb(166, 166, 166);
+}
+
+.e-ruler-tick {
+  stroke: #767676;
+}
+
+.e-menu-item e-blankicon {
+  padding-left: 28px;
+}
+
+.e-diagram-selection-indicator {
+  stroke: #fff;
+}
+
+.e-diagram-selection-line {
+  stroke: #fff;
+}
+
+/* stylelint-disable */
+.e-diagram-rotate {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAACXBIWXMAAAsSAAALEgHS3X78AAAA60lEQVQ4jZ1SwQ2DMBAzlfLJI2KEjJAVukG7ARsxQkfoKHQDugHdgOoqh14oCaGWIpSTudzZRg2MdYOxrq0il2Csm411o7Eu5GinTN0D6AGMAGZVux9p1LGBrHIF0LD+4l3ql70thDABSFZYaeTJ6UqNWhL3ELhyyhUR98TcwI06Lk1aNonO1NocqGWy/6zOcGCq6OjiSCw22/wUfEzL8ND2P9duFXBmHMDvWVN7CliFkkGe69VM5RmVLDqG7ZMPOroWP5BTle5WjR6dkQayutyLqU6gsiU/ypHMiI41yf+CE01qov+R0egXAN5x6jng51I3yAAAAABJRU5ErkJggg==), auto !important;
+}
+
+.e-symbolpalette-hidden {
+  display: none !important;
+}
+
+.e-symbolpalette-search-hidden {
+  display: none !important;
+}
+
+.e-diagramTooltip-content {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* stylelint-enable */

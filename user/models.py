@@ -95,7 +95,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    # REQUIRED_FIELDS = ['username']
+    # REQUIRED_FIELDS = ('username',)
 
     def __str__(self):
         return self.username
@@ -114,6 +114,7 @@ class Profile(models.Model):
     verified = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
     wallet = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    image = models.ImageField(upload_to='profile_pics', default='default.jpg')
 
     class Meta:
         ordering = ['-date']

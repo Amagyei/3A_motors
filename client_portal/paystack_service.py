@@ -30,3 +30,15 @@ def initialize_paystack_payment(amount, email, reference, callback_url):
         return response.json()
     except requests.exceptions.RequestException as e:
         return {"status": False, "message": str(e)}
+    
+def verify_payment(reference):
+    """Verifies the status of a payment with Paystack."""
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+    }
+    response = requests.get(f"https://api.paystack.co/transaction/verify/{reference}", headers=headers)
+    response_data = response.json()
+    if response.status_code == 200:
+        return response_data["data"]
+    else:
+        raise Exception(response_data.get("message", "Failed to verify payment"))
