@@ -10,6 +10,9 @@ import BookingSteps from "./bookingSteps";
 import AboutUs from "./aboutUs";
 import Footer from "../../components/footer";
 
+import {links } from '../../../assets/images/dummy';
+
+
 const PageContainer = styled.div`
     ${tw`
         flex

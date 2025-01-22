@@ -1,12 +1,18 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-  darkMode: 'class', // Keep the dark mode from the second config
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './src/**/*.html'],
+  darkMode: 'class',
   theme: {
     fontFamily: {
       display: ['Open Sans', 'sans-serif'],
       body: ['Open Sans', 'sans-serif'],
     },
     extend: {
+      colors: {
+        'light-gray': '#f3f3f3',
+      },
+      dropShadow: {
+        xl: '0 25px 50px rgba(0, 0, 0, 0.25)',
+      },
       fontSize: {
         14: '14px',
       },
@@ -51,5 +57,12 @@ module.exports = {
       borderColor: ['hover'],
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/line-clamp'),
+    require('tailwind-scrollbar-hide'),
+    require('tailwind-scrollbar'),
+    require('tailwind-scrollbar-hide'),
+  ],
 };

@@ -1,7 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@;500;700;800;900&display=swap');
+/* @import '~@syncfusion/ej2-base/styles/material.css';
+@import '~@syncfusion/ej2-buttons/styles/material.css';  
+@import '~@syncfusion/ej2-calendars/styles/material.css';  
+@import '~@syncfusion/ej2-dropdowns/styles/material.css';  
+@import '~@syncfusion/ej2-inputs/styles/material.css';  
+@import '~@syncfusion/ej2-navigations/styles/material.css';
+@import '~@syncfusion/ej2-popups/styles/material.css';
+@import '~@syncfusion/ej2-splitbuttons/styles/material.css';
+@import "~@syncfusion/ej2-react-grids/styles/material.css";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@;500;700;800;900&display=swap'); */
 html, body, #root{
 height: 100%;
 width: 100%;

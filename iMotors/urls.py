@@ -17,6 +17,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from frontend.views import get_syncfusion_license_key
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,4 +30,8 @@ urlpatterns = [
     path('', include('frontend.urls', namespace='frontend')),
     # path('api', include('api.urls' , namespace="api")),
     # path('vehicle/', include('vehicle.urls', namespace='vehicle')),
+
+    # api keys
+    path('api/syncfusion-license/', get_syncfusion_license_key, name='syncfusion-license'),
+
 ]

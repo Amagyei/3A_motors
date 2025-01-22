@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 from datetime import timedelta
-
+from dotenv import load_dotenv
+load_dotenv()
 """
 Django settings for iMotors project.
 
@@ -425,5 +426,8 @@ JAZZMIN_UI_TWEAKS = {
 
 '''Paystack settings'''
 # paystack keys
+
+
 PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
 PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
+SYNCFUSION_LICENSE = os.getenv('SYNCFUSION_LICENSE')
