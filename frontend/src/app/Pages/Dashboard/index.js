@@ -9,7 +9,7 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { registerLicense } from '@syncfusion/ej2-base';
 import { Routes } from 'react-router-dom';
 import { useStateContext } from '../../contexts/ContextProvider'
-import DashNavbar from '../../components/DashboardComponents/navbar'; // Capitalized the import
+import DashNavbar from '../../components/DashboardComponents/DashNavbar'; // Capitalized the import
 import Navbar from '../../components/navbar';
 import ThemeSettings from '../../components/DashboardComponents';
 // import { Kanban, Editor, Calendar, ColorPicker } from '../../components/DashboardComponents';
@@ -55,7 +55,7 @@ const  SettingsButton = styled.button`
     ${tw`
         dark:bg-main-bg bg-main-bg min-h-screen w-full
     `};
-    ${({ activeMenu }) => activeMenu && tw`md:ml-72 flex-1`}
+    ${({ activeMenu }) => activeMenu && tw`md:ml-2 flex-1`}
 `;
 
 const SidebarContainer = styled.div`
@@ -74,7 +74,7 @@ const SidebarHiddenContainer = styled.div`
 // Navbar container
  const NavbarContainer = styled.div`
     ${tw`
-        fixed md:static bg-main-bg dark:bg-main-dark-bg w-full
+        relative md:static bg-main-bg dark:bg-main-dark-bg w-full
     `};
 `;
 const DashboardRoutes = (
