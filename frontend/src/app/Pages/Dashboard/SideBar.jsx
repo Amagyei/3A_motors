@@ -124,7 +124,7 @@ export default function SideBar() {
                 <SectionTitle>{section.title}</SectionTitle>
                 {section.links.map((link) => (
                   <SidebarLink
-                    to={`/${link.name}`}
+                    to={`/dashboard/${link.name}`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                   >

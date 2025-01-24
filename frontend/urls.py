@@ -1,23 +1,20 @@
-from .views import index
 from django.urls import path, re_path
+from .views import index
 
 app_name = 'frontend'
 
 urlpatterns = [
+    # React-specific routes
     path('', index, name='index'),
     path('login/', index, name='login'),
     path('home/', index, name='home'),
-    path('dashboard/', index, name='dashboard'),
     path('profile/', index, name='profile'),
     path('register/', index, name='register'),
     path('vehicles/', index, name='vehicles'),
-    path('vehicles/<int:id>/', index, name='vehicle'),
-    path('vehicles/add/', index, name='add_vehicle'),
-    path('vehicles/edit/<int:id>/', index, name='edit_vehicle'),
-    path('vehicles/delete/<int:id>/', index, name='delete_vehicle'),
-    path('vehicles/search/', index, name='search_vehicle'),
-    path('vehicles/search/<str:search>/', index, name='search_vehicle'),
-    path('vehicles/search/<str:search>/<str:filter>/', index, name='search_vehicle'),
-    
-    # re_path(r'^.*$', index),
+
+    # React Dashboard routes
+    re_path(r'^dashboard/.*$', index),  # Matches /dashboard and all sub-paths (e.g., /dashboard/orders)
+
+    # Catch-all for React routes
+    re_path(r'^.*$', index),
 ]
