@@ -1,201 +1,347 @@
-3A Motors Client & Employee Portal
+# 3A Motors Client & Employee Portal
 
-A Django + React full-stack application that streamlines automotive service management. Clients can track their vehicles’ service records, view & pay invoices, and monitor job status in real time. Employees can manage job queues, service records, and payment confirmations via a unified web portal.
+A **Django + React** full-stack application that manages all aspects of an automotive service business. It enables **clients** to track vehicle service progress, view invoices/payments, and manage their user profiles, while **employees** can handle job queues, service records, and receive notifications. The application also supports robust **payment integrations** (Paystack and Flutterwave) for invoice handling, as well as detailed logging of every model in the system.
 
-Table of Contents
-	1.	Features
-	2.	Tech Stack
-	3.	Project Structure
-	4.	Prerequisites
-	5.	Setup Instructions
-	•	Backend Setup (Django)
-	•	Frontend Setup (React)
-	•	Environment Variables
-	•	Database Migrations
-	6.	Running the Project
-	7.	Usage & Endpoints
-	8.	Payment Integrations
-	9.	Testing
-	10.	Deployment Tips
-	11.	License
+---
 
-1. Features
-	•	User Authentication: JWT-based login and registration for employees and clients.
-	•	Vehicle Management: Create, read, update, delete (CRUD) vehicle records and track maintenance status.
-	•	Service Records: Log issues, track repairs, and assign employees.
-	•	Invoices & Payments:
-	•	Real-time invoice generation and secure payment handling.
-	•	Integration with Paystack/Flutterwave for transaction verification.
-	•	Notifications: Potential for granular alerts (e.g., upcoming due dates, completed services).
+## Table of Contents
+1. [Overview](#overview)  
+2. [Models](#models)  
+   - [User](#user-model)  
+   - [Profile](#profile-model)  
+   - [Vehicle](#vehicle-model)  
+   - [ServiceRecord](#servicerecord-model)  
+   - [ServiceType](#servicetype-model)  
+   - [Invoice](#invoice-model)  
+   - [Payment](#payment-model)  
+   - [Notification](#notification-model)  
+3. [API Endpoints](#api-endpoints)  
+   - [User & Auth Endpoints](#user--auth-endpoints)  
+   - [Vehicle Endpoints](#vehicle-endpoints)  
+   - [ServiceRecord Endpoints](#servicerecord-endpoints)  
+   - [Invoice Endpoints](#invoice-endpoints)  
+   - [Payment Endpoints](#payment-endpoints)  
+   - [Notification Endpoints](#notification-endpoints)  
+   - [ServiceType Endpoints](#servicetype-endpoints)  
+   - [Employee Endpoints](#employee-endpoints)  
+4. [Functionalities](#functionalities)  
+5. [Setup & Installation](#setup--installation)  
+6. [Usage](#usage)  
+7. [Contributing](#contributing)  
+8. [License](#license)  
+9. [Appendix: Detailed Presentation Outline (~1000 Words)](#appendix-detailed-presentation-outline-1000-words)
 
-2. Tech Stack
-	•	Backend:
-	•	Django & Django REST Framework
-	•	PostgreSQL for relational data storage
-	•	SimpleJWT for token-based auth
-	•	Frontend:
-	•	React + Material-UI for styling and layout
-	•	Axios or Fetch for API requests
-	•	DataGrid components for tabular data (e.g., vehicles, invoices, payments)
-	•	Payment Gateways:
-	•	Paystack, Flutterwave for real-time payments
+---
 
-3. Project Structure
+## 1. Overview
 
-3A_Motors/
-├── iMotors/                # Django project root
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── ...
-├── client_portal/          # Django app handling client-facing logic
-│   ├── views.py
-│   ├── models.py
-│   ├── serializers.py
-│   ├── urls.py
-│   └── ...
-├── user/                   # Custom user model & auth
-├── vehicle/                # Vehicle-related models & endpoints
-├── ...                     # Additional apps (e.g., payments, notifications)
-├── frontend/               # React frontend source
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   └── ...
-│   └── package.json
-├── README.md
-├── requirements.txt        # Python dependencies
-├── manage.py               # Django CLI
-└── ...
+**3A Motors Client & Employee Portal** is a web application built with:
 
-4. Prerequisites
-	•	Python 3.8+
-	•	Node.js 14+ and npm or yarn
-	•	PostgreSQL installed and running
-	•	(Optional) Docker for containerization
+- **Django & Django REST Framework** (Back-end)
+- **React + Material UI** (Front-end)
+- **PostgreSQL** (Database)
+- **JWT-based Authentication** for secure sessions
+- **Paystack & Flutterwave** integration for invoice payments
 
-5. Setup Instructions
+Users can log in as clients or employees to handle various tasks:
 
-Backend Setup (Django)
-	1.	Clone the Repository:
+- **Clients**: Track vehicle services, view/pay invoices, receive relevant notifications.
+- **Employees**: Manage service records, handle job queues, update vehicle statuses, verify or process payments.
 
-git clone https://github.com/username/3a_motors_portal.git
-cd 3a_motors_portal
+---
 
+## 2. Models
 
-	2.	Create & Activate Virtual Environment (recommendation):
+### **User Model**
+- **Primary Key**: `uid` (ShortUUIDField)
+- **Fields**:
+  - `username` (unique)
+  - `email` (unique)
+  - `phone` (unique, optional)
+  - `full_name` (optional)
+  - `gender` (choices: "Male", "Female")
+  - `user_type` (choices: "client", "employee", "administrator")
+  - `is_active`, `is_staff`, `is_superuser`
+  - `password` (hashed by Django)
+- **Purpose**: Stores authentication data (username, password, etc.) and user role.
 
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-.\venv\Scripts\activate   # Windows
+### **Profile Model**
+- **OneToOneField** to `User`
+- **Fields**:
+  - `full_name`, `phone`, `gender`, `residential_address`, `mailing_address`
+  - `parents_name`, `parents_number` (for certain client profiles)
+  - `verified` (Boolean)
+  - `wallet` (DecimalField)
+  - `image` (profile picture)
+- **Purpose**: Extended information for each user.
 
+### **Vehicle Model**
+- **Primary Key**: `vehicle_id` (ShortUUIDField)
+- **Fields**:
+  - `owner` (ForeignKey to `User`)
+  - `make`, `model`, `year`
+  - `registration_number` (optional, unique)
+  - `vin` (optional)
+  - `status` (e.g., "Waiting for Service", "Being Serviced")
+  - `queue_position` (optional integer)
+- **Purpose**: Represents each physical vehicle managed by the system.
 
-	3.	Install Python Dependencies:
+### **ServiceRecord Model**
+- **Fields**:
+  - `user` (ForeignKey to `User` who owns the record)
+  - `vehicle` (ForeignKey to `Vehicle`)
+  - `serviceRecord_id` (UUIDField)
+  - `service_type` (ForeignKey to `ServiceType`)
+  - `issue_description` (TextField)
+  - `status` (choices: "Pending", "In Progress", "Completed")
+  - `payment_status` (choices: "Paid", "Unpaid")
+  - `assigned_to` (ForeignKey to `User`, if employee is assigned)
+  - `date_initiated` (auto_now_add=True)
+  - `date_completed` (optional)
+  - `cost_estimate` (DecimalField)
+- **Purpose**: Tracks a specific service/repair session for a vehicle.
 
+### **ServiceType Model**
+- **Fields**:
+  - `name` (CharField)
+  - `description` (TextField, optional)
+  - `serviceType_id` (UUIDField)
+- **Purpose**: Categorizes the types of services (e.g., "Oil Change", "Brake Replacement").
+
+### **Invoice Model**
+- **Fields**:
+  - `user` (ForeignKey to `User`)
+  - `service_record` (OneToOneField to `ServiceRecord`, optional)
+  - `invoice_id` (UUIDField)
+  - `amount` (DecimalField)
+  - `status` (choices: "Unpaid", "Paid", "Overdue")
+  - `due_date` (DateTimeField)
+  - `success_id` (UUIDField for payment success tracking)
+- **Purpose**: Represents billing information for a service record or other costs.
+
+### **Payment Model**
+- **Fields**:
+  - `invoice` (ForeignKey to `Invoice`)
+  - `payment_date` (auto_now_add=True)
+  - `amount` (DecimalField)
+  - `status` (choices: "Successful", "Failed", "Pending")
+  - `transaction_id` (unique CharField)
+  - `payment_method` (choices: e.g., "paystack", "cheque", "cash")
+  - `paystack_reference` (optional)
+- **Purpose**: Logs actual payment transactions for an invoice.
+
+### **Notification Model**
+- **Fields**:
+  - `user` (ForeignKey to `User`)
+  - `message` (TextField)
+  - `notification_type` (choices: "service_update", "payment_reminder", "general")
+  - `created_at` (auto_now_add=True)
+  - `read` (Boolean)
+  - `notification_id` (UUIDField)
+- **Purpose**: Delivers messages (e.g., upcoming payments, service completions) to users.
+
+---
+
+## 3. API Endpoints
+
+### **User & Auth Endpoints**
+**Base**: `/api/v1/user/`
+
+- `POST /register/`
+  - Register a new user (client or employee).
+- `POST /login/`
+  - Obtain JWT tokens (access/refresh).
+- `GET or PUT /profile/`
+  - Retrieve or update profile info for the authenticated user.
+- `POST /change-password/`
+  - Change user password with `old_password` and `new_password`.
+- `POST /logout/`
+  - Blacklist the refresh token.
+- `POST /token/refresh/`
+  - Obtain new access token using refresh token.
+- `POST /token/verify/`
+  - Verify if an access token is valid.
+
+### **Vehicle Endpoints**
+**Base**: `/client_portal/api/v1/vehicles/`
+
+- `GET /`
+  - List all vehicles. Possibly filtered by user or status.
+- `POST /`
+  - Create a new vehicle (auth required).
+- `GET /<vehicle_id>/`
+  - Retrieve a single vehicle’s details.
+- `PUT/PATCH /<vehicle_id>/`
+  - Update existing vehicle data.
+- `DELETE /<vehicle_id>/`
+  - Remove a vehicle record.
+
+### **ServiceRecord Endpoints**
+**Base**: `/client_portal/api/v1/service-records/`
+
+- `GET /`
+  - List service records, optional filters by status.
+- `POST /`
+  - Create a new service record with `vehicle_id`, `service_type`, etc.
+- `GET /<record_id>/`
+  - Retrieve a single service record.
+- `PUT/PATCH /<record_id>/`
+  - Update record details (e.g., cost_estimate, assigned_to).
+- `DELETE /<record_id>/`
+  - Delete a service record.
+
+Additional:
+- `POST /<record_id>/complete/`
+  - Mark the record as completed.
+- `POST /<record_id>/assign/`
+  - Assign to an employee.
+
+### **Invoice Endpoints**
+**Base**: `/client_portal/api/v1/invoices/`
+
+- `GET /`
+  - List all invoices. Filter by user if needed.
+- `POST /`
+  - Create a new invoice.
+- `GET /<invoice_id>/`
+  - Retrieve invoice details.
+- `PUT/PATCH /<invoice_id>/`
+  - Update invoice amount, status, or due date.
+- `DELETE /<invoice_id>/`
+  - Remove an unpaid invoice if not needed.
+
+### **Payment Endpoints**
+**Base**: `/client_portal/api/v1/payments/`
+
+- `GET /`
+  - List payment records (transaction_id, amount, payment_method).
+- `POST /`
+  - Log or initialize a payment.
+- `GET /<payment_id>/`
+  - Details of a single payment.
+- `PUT/PATCH /<payment_id>/`
+  - Update payment status or method if needed.
+- `DELETE /<payment_id>/`
+  - Remove a payment record if invalid.
+
+### **Notification Endpoints**
+**Base**: `/client_portal/api/v1/notifications/`
+
+- `GET /`
+  - List notifications for the authenticated user.
+- `PUT/PATCH /<notification_id>/`
+  - Mark notification as read.
+
+### **ServiceType Endpoints**
+**Base**: `/client_portal/api/v1/service-types/`
+
+- `GET /`
+  - Retrieve all service types.
+- `POST /`
+  - Create a service type.
+- `PUT/PATCH/DELETE /<type_id>/`
+  - Modify or remove a service type.
+
+### **Employee Endpoints**
+**Base**: `/client_portal/api/v1/employees/`
+
+- `GET /`
+  - Lists employees with `user_type='employee'`, used for assignment.
+
+---
+
+## 4. Functionalities
+
+1. **User Registration & Login**
+   - Token-based sessions for either client or employee roles.
+2. **Vehicle Lifecycle**
+   - Creation, status updates, linking to service records.
+3. **Service Management**
+   - Employees can claim tasks, update statuses, and set costs.
+4. **Invoices**
+   - Automatic creation from service records, or manual issuance.
+5. **Payments**
+   - Gateway integration (Paystack, Flutterwave), with real-time verification.
+6. **Notifications**
+   - Inform users of pending invoices, completed services, or new tasks.
+7. **Search & Filters**
+   - Quick lookups in DataGrid, sorting by status or date.
+
+---
+
+## 5. Setup & Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/username/3a_motors_portal.git
+   cd 3a_motors_portal
+
+2. **Backend Setup**
+   - **Create & Activate a Virtual Environment** 
+   python -m venv venv
+    source venv/bin/activate  # For Linux/Mac
+    .\venv\Scripts\activate   # For Windows
+
+- **Install Python Dependencies**  
 pip install -r requirements.txt
 
+- **Configure `settings.py`**  
+  - Update `DATABASES` with PostgreSQL credentials.  
+  - Add apps like `client_portal`, `user`, `vehicle` to `INSTALLED_APPS`.  
+  - Set `ALLOWED_HOSTS` to include `127.0.0.1` or a custom domain.  
+- **Migrate the Database**  
 
-	4.	Configure settings.py:
-	•	Update DATABASES for PostgreSQL credentials.
-	•	Add client_portal, user, vehicle, etc. to INSTALLED_APPS.
-	•	Set ALLOWED_HOSTS to include 127.0.0.1 or your domain.
-
-Frontend Setup (React)
-	1.	Navigate to Frontend Directory:
-
-cd frontend
-
-
-	2.	Install Node Dependencies:
-
-npm install
-# or yarn
-yarn install
-
-
-	3.	Create a .env file (optional) to store config (e.g., REACT_APP_API_URL).
-
-Environment Variables
-	•	Backend:
-	•	SECRET_KEY: Django secret key.
-	•	DATABASE_URL: If you prefer a single env var for DB, or specify in settings.py.
-	•	PAYSTACK_SECRET_KEY, FLUTTERWAVE_SECRET_KEY: Payment gateway creds.
-	•	Frontend:
-	•	REACT_APP_API_URL: Base URL for the API (e.g., http://127.0.0.1:8000/client_portal/api/v1).
-
-Database Migrations
-
-# In project root (where manage.py resides)
 python manage.py makemigrations
 python manage.py migrate
 
-(Optional) Create a superuser:
 
 python manage.py createsuperuser
 
-6. Running the Project
+3. **Frontend Setup**
+- **Install Node Dependencies**  
 
-Backend
 
-cd 3a_motors_portal
+cd frontend
+npm install
+
+- *(Optional)* **Environment Variables**  
+  Create a `.env` file in the `frontend/` folder with:
+
+- **Start the Frontend**  
+
+
+- The React app runs on **http://127.0.0.1:8000** by default.
+
+---
+
+## 6. Usage
+
+- **Running the Backend**  
+
+cd 3a_motors
 python manage.py runserver
-
-	•	The Django server typically runs on http://127.0.0.1:8000.
-
-Frontend
 
 cd frontend
 npm start
 
-	•	The React app typically runs on http://127.0.0.1:3000.
+  Access the React UI on **http://127.0.0.1:3000**.
 
-7. Usage & Endpoints
-	•	Vehicles:
-	•	GET /client_portal/api/v1/vehicles/ lists all vehicles.
-	•	POST /client_portal/api/v1/vehicles/ adds a new vehicle (auth required).
-	•	Service Records:
-	•	GET /client_portal/api/v1/service-records/
-	•	POST /client_portal/api/v1/service-records/ for creating a record with vehicle ID, issue description, etc.
-	•	Invoices:
-	•	GET /client_portal/api/v1/invoices/
-	•	Real-time invoice status updated after payment verification.
-	•	Payments:
-	•	GET /client_portal/api/v1/payments/
-	•	Includes transaction details, method (cash, paystack, etc.), status, timestamps.
-	•	User Auth:
-	•	POST /api/v1/user/login/ obtains access tokens.
-	•	POST /api/v1/user/register/ for new user registration.
+---
 
-8. Payment Integrations
-	•	Paystack:
-	•	Initialize transactions: calls Paystack’s /transaction/initialize.
-	•	Verify transaction via callback or by hitting /transaction/verify.
-	•	Flutterwave:
-	•	Similar approach, using their /payments endpoint.
-	•	Invoice Status:
-	•	Marked as “Paid” or “Failed” after verification.
-	•	Reflected in the React front-end instantly (or upon refresh).
+## 7. Contributing
 
-9. Testing
-	•	Django Tests:
-	•	python manage.py test runs back-end tests (models, views, etc.).
-	•	React Tests (if applicable):
-	•	npm test or yarn test.
-	•	Manual / Postman Testing:
-	•	Confirm each endpoint (service-records, invoices, payments) returns expected data.
+- **Fork & Branch**  
+  Create a feature branch, implement changes, then open a Pull Request.
+- **Code Style**  
+  - PEP8 for Django/Python code.  
+  - ESLint/Prettier recommended for React code consistency.
+- **Testing**  
+  Provide tests for any new features or fixes.  
+  Use Django’s `python manage.py test` for backend and `npm test` for frontend (if applicable).
 
-10. Deployment Tips
-	•	Production Settings:
-	•	Use DEBUG=False in settings.py.
-	•	Securely store SECRET_KEY and payment keys as environment variables.
-	•	Database:
-	•	Migrate production DB with manage.py migrate.
-	•	Docker (Optional):
-	•	Create Dockerfile for Django back-end, a separate one for React, or a multi-stage build to unify.
-	•	Use docker-compose.yml to orchestrate containers (Django, PostgreSQL, React).
-	•	CI/CD:
-	•	Implement GitHub Actions or Jenkins pipelines to automate testing and deployment.
+---
 
+## 8. License
 
-
-Thank you for using the 3A Motors Client & Employee Portal! If you have questions or encounter bugs, please open an issue or contact me directly. Enjoy streamlined vehicle service management!
+This project is licensed under the **MIT License**. Feel free to adapt or distribute.  
+Please reference **Nana Kwame Amagyei** as the original author if needed.
