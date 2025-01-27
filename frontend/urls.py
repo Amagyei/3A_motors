@@ -11,10 +11,11 @@ urlpatterns = [
     path('profile/', index, name='profile'),
     path('register/', index, name='register'),
     path('vehicles/', index, name='vehicles'),
-
     # React Dashboard routes
     re_path(r'^dashboard/.*$', index),  # Matches /dashboard and all sub-paths (e.g., /dashboard/orders)
 
     # Catch-all for React routes
-    re_path(r'^.*$', index),
+    # re_path(r'^.*$', index),
+
+
 ]

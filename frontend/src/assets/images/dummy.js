@@ -1,10 +1,10 @@
 import React from 'react';
-import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock } from 'react-icons/ai';
-import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
+import { AiOutlineCalendar, AiOutlineShoppingCart, AiOutlineAreaChart, AiOutlineBarChart, AiOutlineStock, AiFillCar } from 'react-icons/ai';
+import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiHome } from 'react-icons/fi';
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
-import { RiContactsLine, RiStockLine } from 'react-icons/ri';
+import { RiContactsLine, RiReceiptFill, RiStockLine } from 'react-icons/ri';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
@@ -474,8 +474,8 @@ export const links = [
     title: 'Dashboard',
     links: [
       {
-        name: 'ecommerce',
-        icon: <FiShoppingBag />,
+        name: 'Home',
+        icon: <FiHome />,
       },
     ],
   },
@@ -484,17 +484,26 @@ export const links = [
     title: 'Pages',
     links: [
       {
-        name: 'orders',
+        name: 'Service-Records',
         icon: <AiOutlineShoppingCart />,
       },
       {
-        name: 'employees',
-        icon: <IoMdContacts />,
+        name: 'vehicles',
+        icon: <AiFillCar />,
       },
       {
-        name: 'customers',
-        icon: <RiContactsLine />,
+        name: 'Invoices',
+        icon: <RiReceiptFill />,
       },
+      {
+        name: 'Payments',
+        icon: <FiCreditCard />,
+      },
+      {
+        name: 'Notifications',
+        icon: <BsChatLeft />,
+      },
+      
     ],
   },
   {

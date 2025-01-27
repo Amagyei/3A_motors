@@ -3,14 +3,14 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import Navbar from "../../components/navbar";
 import TopSection from "./topSection";
-import BookCard from "../../components/bookCard";
+import BookCard from "../../components/bookCard/index.js";
 import { Margin } from "@mui/icons-material";
-import Marginer from "../../components/marginer";
-import BookingSteps from "./bookingSteps";
-import AboutUs from "./aboutUs";
-import Footer from "../../components/footer";
+import Marginer from "../../components/marginer/index.tsx";
+import BookingSteps from "./bookingSteps.js";
+import AboutUs from "./aboutUs.js";
+import Footer from "../../components/footer/index.js";
 
-import {links } from '../../../assets/images/dummy';
+import {links } from '../../../assets/images/dummy.js';
 
 
 const PageContainer = styled.div`

@@ -6,7 +6,7 @@ import { SiShopware } from "react-icons/si";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { MdOutlineCancel } from "react-icons/md";
 import { links } from "../../../assets/images/dummy";
-import { useStateContext } from "../../contexts/ContextProvider";
+import { useStateContext } from "../../contexts/ContextProvider.js";
 
 // Styled Components
 const SidebarContainer = styled.div`

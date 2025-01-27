@@ -5,12 +5,12 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { registerLicense } from '@syncfusion/ej2-base';
 import { Routes, Route } from 'react-router-dom';
-import { useStateContext } from '../../contexts/ContextProvider';
+import { useStateContext } from '../../contexts/ContextProvider.js';
 import DashNavbar from '../../components/DashboardComponents/DashNavbar';
 import SideBar from "./SideBar";
 import {
   Ecommerce,
-  Orders,
+  ServiceRecords,
   Calendar,
   Employees,
   Stacked,
@@ -25,6 +25,10 @@ import {
   ColorPicker,
   ColorMapping,
   Editor,
+  Home,
+  Vehicles,
+  Invoices,
+  Payments
 } from './DashBoardPages';
 import { blue } from '@mui/material/colors';
 
@@ -79,11 +83,14 @@ const NavbarContainer = styled.div`
 
 const DashboardRoutes = (
   <>
-    <Route path="/" element={<Ecommerce />} />
-    <Route path="/ecommerce" element={<Ecommerce />} />
-    <Route path="/orders" element={<Orders />} />
-    <Route path="/employees" element={<Employees />} />
-    <Route path="/customers" element={<Customers />} />
+    <Route path="/" element={< Home />} />
+    <Route path="/home" element={<Home />} />
+    <Route path="/service-records" element={<ServiceRecords />} />
+    <Route path="/service-record/:id" element={<serviceRecordDetails />} />
+    <Route path="/vehicles" element={<Vehicles />} />
+    <Route path="/payments" element={<Payments />} />
+
+    <Route path="/invoices" element={<Invoices />} />
     <Route path="/kanban" element={<Kanban />} />
     <Route path="/editor" element={<Editor />} />
     <Route path="/calendar" element={<Calendar />} />

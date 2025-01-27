@@ -14,8 +14,8 @@ import {
 } from '@syncfusion/ej2-react-schedule';
 import { DatePickerComponent } from '@syncfusion/ej2-react-calendars';
 
-import { scheduleData } from '../data/dummy';
-import { Header } from '../components';
+import { scheduleData } from '../../../../assets/images/dummy';
+import { Header } from '../../../components/DashboardComponents';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 

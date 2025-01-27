@@ -6,7 +6,7 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import avatar from '../../../assets/images/avatar.jpg';
-import { useStateContext } from '../../contexts/ContextProvider';
+import { useStateContext } from '../../contexts/ContextProvider.js';
 import NavButton from './NavButton';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Cart from './Cart';
