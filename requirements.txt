@@ -3,10 +3,13 @@ env
 psycopg2
 asgiref
 autopep8==1.6.0
+drf_yasg
 django
 django-taggit
 django-jazzmin
+django-extensions
 django-ckeditor==6.1.0
+django-ckeditor-5
 django-mathfilters
 django-crispy-forms
 djangorestframework
@@ -20,5 +23,7 @@ sqlparse==0.4.2
 toml==0.10.2
 tzdata==2021.5
 python-dotenv
+requests
+
 
 

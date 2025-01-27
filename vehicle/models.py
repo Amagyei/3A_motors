@@ -41,7 +41,7 @@ class Vehicle(models.Model):
     )
     color = models.CharField(max_length=20, blank=True, null=True, help_text="Vehicle color (optional)")
     vin = models.CharField(
-        max_length=17, 
+        max_length=100, 
         unique=True, 
         blank=True, 
         null=True, 
@@ -55,5 +55,5 @@ class Vehicle(models.Model):
     queue_position = models.PositiveIntegerField(blank=True, null=True, help_text="Position in the queue (if applicable)")
 
     def __str__(self):
-        return f"{self.make} {self.model} - {self.registration_number or 'No Reg'}"
+        return f"{self.model} - {self.registration_number or 'No Reg'}"
 

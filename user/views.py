@@ -2,6 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import (
@@ -9,7 +15,7 @@ from .serializers import (
 )
 from .models import User
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     """API for user registration."""
     permission_classes = [AllowAny]
@@ -21,13 +27,15 @@ class RegisterView(APIView):
             refresh = RefreshToken.for_user(user)
             return Response({
                 "message": "User registered successfully!",
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
                 "user": UserSerializer(user).data,
             }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     """API for user login."""
     permission_classes = [AllowAny]
@@ -35,22 +43,24 @@ class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
-        
+
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Invalid email or password"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        user = authenticate(username=user.username, password=password)  # Authenticate with username internally
-        if user:
+        user = authenticate(username=user.username, password=password)
+        if user and user.is_active:
             refresh = RefreshToken.for_user(user)
             return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "user": UserSerializer(user).data
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
+                "user": UserSerializer(user).data,
             }, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
-
+        return Response({"error": "Invalid email or password"}, status=status.HTTP_401_UNAUTHORIZED)
+        
 class ProfileView(APIView):
     """API for profile management."""
     permission_classes = [IsAuthenticated]
@@ -96,3 +106,7 @@ class LogoutView(APIView):
             return Response({"message": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+def get_csrf_token(request):
+    token = get_token(request)
+    return JsonResponse({'csrfToken': token})
